@@ -114,4 +114,4 @@ const createPhotoDescription = () => {
 
 const generatedDescriptions = () => Array.from({length:GENERATED_PHOTO_DESCRIPTIONS_COUNT}, createPhotoDescription);
 
-
+generatedDescriptions();
