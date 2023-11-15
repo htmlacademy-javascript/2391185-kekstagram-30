@@ -51,8 +51,8 @@ function isTimeInWorkScope (workTimeStart, workTimeEnd, meetingTimeStart, meetin
   return false;
 }
 
-console.log(isTimeInWorkScope('08:00', '17:30', '14:00', 90)); // true
-console.log(isTimeInWorkScope('8:0', '10:0', '8:0', 120)); // true
-console.log(isTimeInWorkScope('08:00', '14:30', '14:00', 90)); // false
-console.log(isTimeInWorkScope('14:00', '17:30', '08:0', 90)); // false
-console.log(isTimeInWorkScope('8:00', '17:30', '08:00', 900)); // false
+isTimeInWorkScope('08:00', '17:30', '14:00', 90); // true
+isTimeInWorkScope('8:0', '10:0', '8:0', 120); // true
+isTimeInWorkScope('08:00', '14:30', '14:00', 90); // false
+isTimeInWorkScope('14:00', '17:30', '08:0', 90); // false
+isTimeInWorkScope('8:00', '17:30', '08:00', 900); // false
