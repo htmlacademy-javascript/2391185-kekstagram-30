@@ -1,3 +1,1 @@
-import {generatedDescriptions} from './constantsdata.js';
-
-generatedDescriptions();
+import './draw_thumbnail.js';
