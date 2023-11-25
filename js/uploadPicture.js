@@ -1,4 +1,6 @@
 import { isEscape } from './utility.js';
+import './changeScale.js';
+import './implementFilter.js';
 
 const HASTAG_REGEXP = /^#[a-zа-яё0-9]{1,19}$/i;
 const HASHTAG_MAX_AMOUNT = 5;
@@ -17,6 +19,9 @@ const closePictureFormElement = document.querySelector('.img-upload__cancel');
 const hashtagsElement = document.querySelector('.text__hashtags');
 const commentsElement = document.querySelector('.text__description');
 
+const uploadImagePreviewElement = document.querySelector('.img-upload__preview img');
+const effectSliderContainerElement = document.querySelector('.img-upload__effect-level');
+
 const validateForm = new Pristine(uploadPictureFormElement, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
@@ -25,9 +30,6 @@ const validateForm = new Pristine(uploadPictureFormElement, {
 const normalizeTag = (tagString) => tagString.trim().split(' ');
 
 const validateHashtagsAmount = (value) => {
-  if (value.length === 0) {
-    return true;
-  }
   const hashtags = normalizeTag(value);
   if (hashtags.length > HASHTAG_MAX_AMOUNT){
     return false;
@@ -36,9 +38,6 @@ const validateHashtagsAmount = (value) => {
 };
 
 const validateHashtagSimbols = (value) => {
-  if (value.length === 0) {
-    return true;
-  }
   const hashtags = normalizeTag(value);
   for (let i = 0; i < hashtags.length; i++){
     if (!HASTAG_REGEXP.test(hashtags[i])) {
@@ -63,12 +62,7 @@ const validateHashtagsRepeat = (value) => {
   return true;
 };
 
-const validateComments = (value) => {
-  if (value.length === 0) {
-    return true;
-  }
-  return value.length <= DESCRIPTION_MAX_LENGTH;
-};
+const validateComments = (value) => value.length <= DESCRIPTION_MAX_LENGTH;
 
 validateForm.addValidator(hashtagsElement, validateHashtagSimbols, CORRECT_HASHTAG_ERROR);
 validateForm.addValidator(hashtagsElement, validateHashtagsAmount, MAXCOUNT_HASHTAGS_ERROR);
@@ -84,12 +78,15 @@ uploadPictureFormElement.addEventListener('submit', (evt) => {
 const onUploadPictureChange = () => {
   editPictureFormElement.classList.remove('hidden');
   document.body.classList.add('modal-open');
+  effectSliderContainerElement.classList.add('hidden');
 };
 
 const onClosePictureForm = () => {
   editPictureFormElement.classList.add('hidden');
   document.body.classList.remove('modal-open');
   uploadPictureElement.value = '';
+  uploadImagePreviewElement.style.transform = 'scale(1)';
+  uploadImagePreviewElement.style.filter = '';
 };
 
 function onDocumentKeydown (evt) {
