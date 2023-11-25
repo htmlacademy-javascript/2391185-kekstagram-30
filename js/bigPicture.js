@@ -1,3 +1,5 @@
+import { isEscape } from './utility';
+
 const bigPicture = document.querySelector('.big-picture');
 const commentCounter = document.querySelector('.social__comment-count');
 const commentLoader = document.querySelector('.social__comments-loader');
@@ -9,15 +11,18 @@ const commentCountElement = bigPicture.querySelector('.social__comment-shown-cou
 const totalCommentCountElement = bigPicture.querySelector('.social__comment-total-count');
 const commentsAmount = parseInt(commentCounter.textContent, 10);
 
+let onShowMoreCommentsClick;
+
 const closeBigPicture = () => {
   bigPicture.classList.add('hidden');
   body.classList.remove('modal-open');
   closeBigPictureButton.removeEventListener('click', closeBigPicture);
   document.removeEventListener('keydown', onDocumentKeydown);
+  commentLoader.removeEventListener('click', onShowMoreCommentsClick);
 };
 
 function onDocumentKeydown (evt) {
-  if(evt.key === 'Escape'){
+  if(isEscape(evt)){
     evt.preventDefault();
     closeBigPicture();
   }
@@ -49,6 +54,13 @@ function drawCommentsList (comments, loadsCounter = 1) {
   }
 }
 
+const getShowMoreCommentsHandler = (comments) => {
+  let counter = 1;
+  return () => {
+    counter++;
+    drawCommentsList(comments, counter);
+  };
+};
 
 const showBigPicture = (picture) => {
   bigPicture.classList.remove('hidden');
@@ -66,11 +78,8 @@ const showBigPicture = (picture) => {
 
   document.addEventListener('keydown', onDocumentKeydown);
 
-  let counter = 1;
-  commentLoader.addEventListener('click', () => {
-    counter++;
-    drawCommentsList(picture.comments, counter);
-  });
+  onShowMoreCommentsClick = getShowMoreCommentsHandler(picture.comments);
+  commentLoader.addEventListener('click', onShowMoreCommentsClick);
 };
 
 export {showBigPicture};
