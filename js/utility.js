@@ -7,7 +7,7 @@ function getRandomInteger (min, max) {
 
   return Math.floor(result);
 }
-
+/*
 function createRandomIdFromRangeGenerator (min, max) {
   const previousValues = [];
   return function () {
@@ -25,6 +25,19 @@ function createRandomIdFromRangeGenerator (min, max) {
 }
 
 const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
+*/
+
+const createRandomMassive = (min, max, length) => {
+  const massive = [];
+  for (let i = 0; i < length; i++){
+    let currentValue = getRandomInteger(min, max);
+    while(massive.includes(currentValue)){
+      currentValue = getRandomInteger(min, max);
+    }
+    massive.push(currentValue);
+  }
+  return massive;
+};
 
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
@@ -47,6 +60,14 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
+const debounce = (callback, timeoutDelay) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
 const isEscape = (evt) => evt.key === 'Escape';
 
-export {getRandomInteger, createRandomIdFromRangeGenerator, getRandomArrayElement, isEscape, showAlert};
+export { createRandomMassive, isEscape, showAlert, debounce};

@@ -1,4 +1,5 @@
 const HASTAG_REGEXP = /^#[a-zа-яё0-9]{1,19}$/i;
+const SPLIT_REGEXP = /\s+/;
 const HASHTAG_MAX_AMOUNT = 5;
 const DESCRIPTION_MAX_LENGTH = 140;
 
@@ -11,7 +12,7 @@ const uploadPictureFormElement = document.querySelector('.img-upload__form');
 const hashtagsElement = document.querySelector('.text__hashtags');
 const commentsElement = document.querySelector('.text__description');
 
-const normalizeTag = (tagString) => tagString.trim().split(' ');
+const normalizeTag = (tagString) => tagString.trim().split(SPLIT_REGEXP);
 
 const validateHashtagsAmount = (value) => {
   const hashtags = normalizeTag(value);
@@ -48,12 +49,13 @@ const validateHashtagsRepeat = (value) => {
 
 const validateComments = (value) => value.length <= DESCRIPTION_MAX_LENGTH;
 
-const validateForm = new Pristine(uploadPictureFormElement, {
-  classTo: 'img-upload__field-wrapper',
-  errorTextParent: 'img-upload__field-wrapper',
-});
+let validateForm;
 
 const addValidatorsPristine = () => {
+  validateForm = new Pristine(uploadPictureFormElement, {
+    classTo: 'img-upload__field-wrapper',
+    errorTextParent: 'img-upload__field-wrapper',
+  });
   validateForm.addValidator(hashtagsElement, validateHashtagSimbols, CORRECT_HASHTAG_ERROR);
   validateForm.addValidator(hashtagsElement, validateHashtagsAmount, MAXCOUNT_HASHTAGS_ERROR);
   validateForm.addValidator(hashtagsElement, validateHashtagsRepeat, SIMILAR_HASHTAGS_ERROR);
@@ -61,6 +63,13 @@ const addValidatorsPristine = () => {
 };
 
 const validateFormPristine = () => validateForm.validate();
-const resetValidatorsPristine = () => validateForm.reset();
+const resetValidatorsPristine = () => {
+  validateForm.reset();
+  validateForm.destroy();
+};
+const resetFields = () => {
+  hashtagsElement.value = '';
+  commentsElement.value = '';
+};
 
-export { addValidatorsPristine, validateFormPristine, resetValidatorsPristine};
+export { addValidatorsPristine, validateFormPristine, resetValidatorsPristine, resetFields};
