@@ -65,7 +65,7 @@ noUiSlider.create(effectSliderElement, {
   connect: FILTERS_OPTIONS.none.connect,
 });
 
-effectsListElement.addEventListener('change', (evt) => {
+const onEffectChange = (evt) => {
   const filter = evt.target.value;
   if (filter === 'none') {
     effectSliderElement.classList.add('hidden');
@@ -87,4 +87,14 @@ effectsListElement.addEventListener('change', (evt) => {
     effectValueELement.value = effectSliderElement.noUiSlider.get();
     uploadImagePreviewElement.style.filter = `${effect}(${effectValueELement.value}${unit})`;
   });
-});
+};
+
+const resetEffects = () => {
+  uploadImagePreviewElement.style.filter = '';
+  effectsListElement.querySelector('#effect-none').checked = true;
+};
+
+const effectChangeHandlerRemove = () => effectsListElement.removeEventListener('change', onEffectChange);
+const effectChangeHandler = () => effectsListElement.addEventListener('change', onEffectChange);
+
+export { effectChangeHandler, effectChangeHandlerRemove, resetEffects };
