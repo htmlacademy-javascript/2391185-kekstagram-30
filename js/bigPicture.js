@@ -38,7 +38,6 @@ const createComment = ({avatar, message, username}) => {
 function drawCommentsList (comments, loadsCounter = 1) {
   commentsList.innerHTML = '';
   let i = 0;
-  //const planedCommentsCount = commentsAmount * loadsCounter;
   for (i; i < (commentsAmount * loadsCounter) && i < comments.length; i++){
     const commentItem = createComment(comments[i]);
     commentsList.append(commentItem);

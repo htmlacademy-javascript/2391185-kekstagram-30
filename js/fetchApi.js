@@ -1,11 +1,13 @@
 import { createErrorMessage, createSuccessMessage } from './uploadPictures/createMessages.js';
-import { closePictureForm } from './uploadPictures/uploadPictureForm.js';
+import { onClosePictureForm } from './uploadPictures/uploadPictureForm.js';
+//import { unblockSubmitButton } from './uploadPictures/uploadPictureForm.js';
 
 const BASE_URL = 'https://30.javascript.pages.academy/kekstagram';
 const Route = {
   GET_DATA : '/data',
   SEND_DATA : '/',
 };
+
 const DOWNLOAD_ERROR_TEXT = 'Не удалось загрузить данные. Попробуйте обновить страницу';
 
 const getData = () =>
@@ -22,7 +24,7 @@ const getData = () =>
 
 const sendData = (formData) => {
   fetch(
-    `${BASE_URL}${Route.SEND_DATA}`,
+    `${BASE_URL}${Route.SEND_DATA}`, //
     {
       method: 'POST',
       body: formData,
@@ -32,7 +34,7 @@ const sendData = (formData) => {
       createErrorMessage();
     } else {
       createSuccessMessage();
-      closePictureForm();
+      onClosePictureForm();
     }
   })
     .catch(() => {

@@ -1,5 +1,6 @@
 import { isEscape } from '../utility.js';
 import { unblockSubmitButton } from './uploadPictureForm.js';
+
 const errorTemplateElement = document.querySelector('#error').content.querySelector('.error');
 const successTemplateElement = document.querySelector('#success').content.querySelector('.success');
 const closeErrorMessageElement = errorTemplateElement.querySelector('.error__button');

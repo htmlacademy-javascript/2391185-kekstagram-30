@@ -12,7 +12,7 @@ const uploadPictureFormElement = document.querySelector('.img-upload__form');
 const hashtagsElement = document.querySelector('.text__hashtags');
 const commentsElement = document.querySelector('.text__description');
 
-const normalizeTag = (tagString) => tagString.trim().split(SPLIT_REGEXP);
+const normalizeTag = (tagString) => tagString.trim().split(SPLIT_REGEXP).filter((tag) => Boolean(tag.length));
 
 const validateHashtagsAmount = (value) => {
   const hashtags = normalizeTag(value);
@@ -54,6 +54,7 @@ let validateForm;
 const addValidatorsPristine = () => {
   validateForm = new Pristine(uploadPictureFormElement, {
     classTo: 'img-upload__field-wrapper',
+    errorTextClass: 'img-upload__field-wrapper--error',
     errorTextParent: 'img-upload__field-wrapper',
   });
   validateForm.addValidator(hashtagsElement, validateHashtagSimbols, CORRECT_HASHTAG_ERROR);
