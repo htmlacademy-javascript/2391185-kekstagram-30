@@ -36,7 +36,7 @@ const onUploadPictureForm = (evt) => {
     blockSubmitButton();
     resetValidatorsPristine();
     const formData = new FormData(evt.target);
-    sendData(formData).finally(unblockSubmitButton);
+    sendData(formData);
   }
 };
 
