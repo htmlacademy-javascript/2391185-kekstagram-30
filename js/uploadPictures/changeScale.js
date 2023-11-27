@@ -20,7 +20,6 @@ const onDecreaseScale = () => {
     changeSize(percentSize);
   }
 };
-
 const onIncreaseScale = () => {
   if (parseInt(scaleValueElement.value,10) < MAX_SCALE){
     const percentSize = parseInt(scaleValueElement.value, 10) + STEP_SCALE;

@@ -13,7 +13,6 @@ const hashtagsElement = document.querySelector('.text__hashtags');
 const commentsElement = document.querySelector('.text__description');
 
 const normalizeTag = (tagString) => tagString.trim().split(SPLIT_REGEXP).filter((tag) => Boolean(tag.length));
-
 const validateHashtagsAmount = (value) => {
   const hashtags = normalizeTag(value);
   if (hashtags.length > HASHTAG_MAX_AMOUNT){

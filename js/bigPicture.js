@@ -34,7 +34,6 @@ const createComment = ({avatar, message, username}) => {
   commentItem.querySelector('.social__text').textContent = message;
   return commentItem;
 };
-
 function drawCommentsList (comments, loadsCounter = 1) {
   commentsList.innerHTML = '';
   let i = 0;

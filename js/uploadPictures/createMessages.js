@@ -61,7 +61,6 @@ function onDocumentKeydown (evt) {
     }
   }
 }
-
 const createErrorMessage = () => {
   errorMessage = errorTemplateElement.cloneNode(true);
   document.body.append(errorMessage);

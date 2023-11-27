@@ -54,7 +54,6 @@ const effectSliderContainerElement = document.querySelector('.img-upload__effect
 const effectValueELement = document.querySelector('.effect-level__value');
 const effectsListElement = document.querySelector('.effects__list');
 let pictureForFilters;
-
 noUiSlider.create(effectSliderElement, {
   range: {
     min: FILTERS_OPTIONS.none.min,

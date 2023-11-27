@@ -29,7 +29,6 @@ const unblockSubmitButton = () => {
   submitButtonElement.disabled = false;
   submitButtonElement.textContent = SubmitButtonText.IDLE;
 };
-
 const onUploadPictureForm = (evt) => {
   evt.preventDefault();
   addValidatorsPristine();

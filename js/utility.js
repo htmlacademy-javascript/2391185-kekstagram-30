@@ -1,5 +1,4 @@
 const ALERT_SHOW_TIME = 5000;
-
 function getRandomInteger (min, max) {
   const lower = Math.ceil(Math.min(Math.abs(min), Math.abs(max)));
   const upper = Math.floor(Math.max(Math.abs(min), Math.abs(max)));

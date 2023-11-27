@@ -7,7 +7,6 @@ const Route = {
   GET_DATA : '/data',
   SEND_DATA : '/',
 };
-
 const DOWNLOAD_ERROR_TEXT = 'Не удалось загрузить данные. Попробуйте обновить страницу';
 
 const getData = () =>
