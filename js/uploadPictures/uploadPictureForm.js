@@ -53,20 +53,7 @@ const addImage = () => {
   }
 };
 
-const onUploadPictureChange = () => {
-  addImage();
-  editPictureFormElement.classList.remove('hidden');
-  document.body.classList.add('modal-open');
-  effectSliderContainerElement.classList.add('hidden');
-  effectChangeHandler(uploadImagePreviewElement);
-  closePictureFormElement.addEventListener('click', onClosePictureForm);
-  document.addEventListener('keydown', onDocumentKeydown);
-  uploadPictureFormElement.addEventListener('submit', onUploadPictureForm);
-  scaleBiggerHandler();
-  scaleSmallerHandler();
-};
-
-function onClosePictureForm () {
+const onClosePictureForm = () => {
   resetFields();
   editPictureFormElement.classList.add('hidden');
   document.body.classList.remove('modal-open');
@@ -79,15 +66,28 @@ function onClosePictureForm () {
   effectChangeHandlerRemove();
   scaleBiggerHandlerRemove();
   scaleSmallerHandlerRemove();
-}
+};
 
-function onDocumentKeydown (evt) {
+function onDocumentKeydown(evt) {
   if(isEscape(evt) && !evt.target.closest('.img-upload__field-wrapper') &&
   !(document.body.querySelector('.error') || document.body.querySelector('.success'))){
     evt.preventDefault();
     onClosePictureForm();
   }
 }
+
+const onUploadPictureChange = () => {
+  addImage();
+  editPictureFormElement.classList.remove('hidden');
+  document.body.classList.add('modal-open');
+  effectSliderContainerElement.classList.add('hidden');
+  effectChangeHandler(uploadImagePreviewElement);
+  closePictureFormElement.addEventListener('click', onClosePictureForm);
+  document.addEventListener('keydown', onDocumentKeydown);
+  uploadPictureFormElement.addEventListener('submit', onUploadPictureForm);
+  scaleBiggerHandler();
+  scaleSmallerHandler();
+};
 
 const setFormAction = () => uploadPictureElement.addEventListener('change', onUploadPictureChange);
 

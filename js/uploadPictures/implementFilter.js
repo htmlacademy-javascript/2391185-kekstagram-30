@@ -54,6 +54,7 @@ const effectSliderContainerElement = document.querySelector('.img-upload__effect
 const effectValueELement = document.querySelector('.effect-level__value');
 const effectsListElement = document.querySelector('.effects__list');
 let pictureForFilters;
+
 noUiSlider.create(effectSliderElement, {
   range: {
     min: FILTERS_OPTIONS.none.min,
@@ -72,7 +73,7 @@ noUiSlider.create(effectSliderElement, {
   },
 });
 
-const onEffectChange = (evt) => {
+const onChangeEffect = (evt) => {
   const filter = evt.target.value;
   const {effect, min, max, start, step, unit} = FILTERS_OPTIONS[filter];
   if (filter === 'none') {
@@ -94,7 +95,7 @@ const onEffectChange = (evt) => {
   });
   effectSliderElement.noUiSlider.on('update', () => {
     if (effect !== 'none'){
-      const filterValue = Number(effectSliderElement.noUiSlider.get());
+      const filterValue = Number(effectSliderElement.noUiSlider.get(true));
       effectValueELement.value = `${filterValue}`;
       pictureForFilters.style.filter = `${effect}(${effectValueELement.value}${unit})`;
     }
@@ -106,10 +107,10 @@ const resetEffects = () => {
   effectsListElement.querySelector('#effect-none').checked = true;
 };
 
-const effectChangeHandlerRemove = () => effectsListElement.removeEventListener('change', onEffectChange);
+const effectChangeHandlerRemove = () => effectsListElement.removeEventListener('change', onChangeEffect);
 const effectChangeHandler = (picture) => {
   pictureForFilters = picture;
-  effectsListElement.addEventListener('change', onEffectChange);
+  effectsListElement.addEventListener('change', onChangeEffect);
 };
 
 export { effectChangeHandler, effectChangeHandlerRemove, resetEffects };

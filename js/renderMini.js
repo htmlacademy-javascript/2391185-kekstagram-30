@@ -1,6 +1,6 @@
 import { getData } from './fetchApi.js';
 import { drawThumbnails } from './draw_thumbnail.js';
-import { showAlert, debounce } from './utility.js';
+import { debounce } from './utility.js';
 import { setFilterClick } from './filter.js';
 
 const RENDER_DELAY = 500;
@@ -16,10 +16,7 @@ const renderMini = () =>{
         () => drawThumbnails(photos),
         RENDER_DELAY)
       );
-    })
-    .catch((err) => {
-      showAlert(err);
-    });
+    }).catch(()=>{});
 };
 
 export { renderMini };
