@@ -13,10 +13,10 @@ const commentsAmount = parseInt(commentCounter.textContent, 10);
 
 let onShowMoreCommentsClick;
 
-const closeBigPicture = () => {
+const onCloseBigPicture = () => {
   bigPicture.classList.add('hidden');
   body.classList.remove('modal-open');
-  closeBigPictureButton.removeEventListener('click', closeBigPicture);
+  closeBigPictureButton.removeEventListener('click', onCloseBigPicture);
   document.removeEventListener('keydown', onDocumentKeydown);
   commentLoader.removeEventListener('click', onShowMoreCommentsClick);
 };
@@ -24,7 +24,7 @@ const closeBigPicture = () => {
 function onDocumentKeydown (evt) {
   if(isEscape(evt)){
     evt.preventDefault();
-    closeBigPicture();
+    onCloseBigPicture();
   }
 }
 const createComment = ({avatar, message, username}) => {
@@ -35,10 +35,9 @@ const createComment = ({avatar, message, username}) => {
   return commentItem;
 };
 
-function drawCommentsList (comments, loadsCounter = 1) {
+const drawCommentsList = (comments, loadsCounter = 1) => {
   commentsList.innerHTML = '';
   let i = 0;
-  //const planedCommentsCount = commentsAmount * loadsCounter;
   for (i; i < (commentsAmount * loadsCounter) && i < comments.length; i++){
     const commentItem = createComment(comments[i]);
     commentsList.append(commentItem);
@@ -52,7 +51,7 @@ function drawCommentsList (comments, loadsCounter = 1) {
   }else {
     commentLoader.classList.remove('hidden');
   }
-}
+};
 
 const getShowMoreCommentsHandler = (comments) => {
   let counter = 1;
@@ -74,7 +73,7 @@ const showBigPicture = (picture) => {
 
   body.classList.add('modal-open');
 
-  closeBigPictureButton.addEventListener('click', closeBigPicture);
+  closeBigPictureButton.addEventListener('click', onCloseBigPicture);
 
   document.addEventListener('keydown', onDocumentKeydown);
 

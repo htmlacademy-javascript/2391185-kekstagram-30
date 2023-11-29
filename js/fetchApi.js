@@ -1,15 +1,23 @@
 import { createErrorMessage, createSuccessMessage } from './uploadPictures/createMessages.js';
-import { closePictureForm } from './uploadPictures/uploadPictureForm.js';
+import { onClosePictureForm } from './uploadPictures/uploadPictureForm.js';
+import { unblockSubmitButton } from './uploadPictures/uploadPictureForm.js';
 
 const BASE_URL = 'https://30.javascript.pages.academy/kekstagram';
+
 const Route = {
   GET_DATA : '/data',
   SEND_DATA : '/',
 };
+/*
+const HttpMethod = {
+  GET: 'GET',
+  POST: 'POST',
+};
+*/
 const DOWNLOAD_ERROR_TEXT = 'Не удалось загрузить данные. Попробуйте обновить страницу';
 
 const getData = () =>
-  fetch(`${BASE_URL}${Route.GET_DATA}`)
+  fetch(`${BASE_URL}${Route.GET_DATA}/`)
     .then((response) => {
       if(!response.ok){
         throw new Error();
@@ -21,21 +29,25 @@ const getData = () =>
     });
 
 const sendData = (formData) => {
+
   fetch(
     `${BASE_URL}${Route.SEND_DATA}`,
     {
       method: 'POST',
       body: formData,
-    },
-  ).then((response) => {
-    if (!response.ok){
-      createErrorMessage();
-    } else {
-      createSuccessMessage();
-      closePictureForm();
     }
-  })
+  ).then ((response) => response.json())
+    .then((response) => {
+      if (!response){
+        createErrorMessage();
+      } else {
+        onClosePictureForm();
+        createSuccessMessage();
+      }
+      unblockSubmitButton();
+    })
     .catch(() => {
+      unblockSubmitButton();
       createErrorMessage();
     });
 };

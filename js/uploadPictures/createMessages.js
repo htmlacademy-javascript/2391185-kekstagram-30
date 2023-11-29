@@ -1,80 +1,60 @@
 import { isEscape } from '../utility.js';
 import { unblockSubmitButton } from './uploadPictureForm.js';
-const errorTemplateElement = document.querySelector('#error').content.querySelector('.error');
-const successTemplateElement = document.querySelector('#success').content.querySelector('.success');
-const closeErrorMessageElement = errorTemplateElement.querySelector('.error__button');
-const closeSuccessMessageElement = successTemplateElement.querySelector('.success__button');
+const ALERT_SHOW_TIME = 5000;
 
-let errorMessage;
-let successMessage;
+const successMessageElement = document
+  .querySelector('#success')
+  .content
+  .querySelector('.success');
 
-const onCloseErrorMessage = (evt) => {
-  evt.preventDefault();
-  closeErrorMessage();
+const errorMessageElement = document
+  .querySelector('#error')
+  .content
+  .querySelector('.error');
+
+const onCloseButtonClick = () => {
+  unblockSubmitButton();
+  hideMessage();
 };
 
-function onCloseSuccessMessage (evt) {
-  evt.preventDefault();
-  closeSuccessMessage();
-}
-
-function onClickOutsideError (evt) {
-  evt.preventDefault();
-  if(evt.target !== document.querySelector('.error__inner')){
-    closeErrorMessage();
-  }
-}
-
-const onClickOutsideSuccess = (evt) => {
-  if(evt.target !== successTemplateElement){
+const onDocumentKeydown = (evt) => {
+  if (isEscape(evt)){
     evt.preventDefault();
-    closeSuccessMessage();
+    hideMessage();
   }
 };
 
-function closeSuccessMessage () {
-  successMessage.remove();
-  successMessage = '';
-  unblockSubmitButton();
-  document.removeEventListener('keydown', onDocumentKeydown);
-  document.removeEventListener('click', onClickOutsideSuccess);
-  closeSuccessMessageElement.addEventListener('click', onCloseSuccessMessage);
-}
-
-function closeErrorMessage () {
-  errorMessage.remove();
-  errorMessage = '';
-  unblockSubmitButton();
-  document.removeEventListener('keydown', onDocumentKeydown);
-  document.removeEventListener('click', onClickOutsideError);
-  closeErrorMessageElement.addEventListener('click', onCloseErrorMessage);
-}
-
-function onDocumentKeydown (evt) {
-  if(isEscape(evt)){
-    evt.preventDefault();
-    if(successMessage){
-      closeSuccessMessage();
-    }else{
-      closeErrorMessage();
-    }
+const onBodyClick = (evt) => {
+  if (evt.target.closest('.success__inner') || (evt.target.closest('.error__inner'))){
+    return;
   }
+
+  hideMessage();
+};
+
+function hideMessage() {
+  const existsElement = document.querySelector('.success') || document.querySelector('.error');
+  existsElement.remove();
+  document.removeEventListener('keydown', onDocumentKeydown);
+  document.body.removeEventListener('click', onBodyClick);
 }
 
-const createErrorMessage = () => {
-  errorMessage = errorTemplateElement.cloneNode(true);
-  document.body.append(errorMessage);
-  closeErrorMessageElement.addEventListener('click', onCloseErrorMessage);
+const showMessage = (element, buttonClass) => {
+  document.body.append(element);
+  document.body.addEventListener('click', onBodyClick);
   document.addEventListener('keydown', onDocumentKeydown);
-  document.addEventListener('click', onClickOutsideError);
+  element
+    .querySelector(buttonClass)
+    .addEventListener('click', onCloseButtonClick);
 };
 
 const createSuccessMessage = () => {
-  successMessage = successTemplateElement.cloneNode(true);
-  document.body.append(successMessage);
-  closeSuccessMessageElement.addEventListener('click', onCloseSuccessMessage);
-  document.addEventListener('keydown', onDocumentKeydown);
-  document.addEventListener('click', onClickOutsideSuccess);
+  showMessage(successMessageElement, '.success__button');
+};
+
+const createErrorMessage = () => {
+  showMessage(errorMessageElement, '.error__button');
+  setTimeout(hideMessage, ALERT_SHOW_TIME);
 };
 
 export { createErrorMessage, createSuccessMessage };

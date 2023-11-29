@@ -8,5 +8,4 @@ const setFilterClick = (cb) => {
     cb();
   });
 };
-
 export { setFilterClick };

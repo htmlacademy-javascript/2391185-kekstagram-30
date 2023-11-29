@@ -49,7 +49,9 @@ const implementFilter = (pictures, filter) => {
 const drawThumbnails = (pictures) => {
   const filter = document.querySelector('.img-filters__button--active').id;
   const filteredPictures = implementFilter(pictures, filter);
+
   const picturesFragment = document.createDocumentFragment();
+
   filteredPictures.forEach((picture) => {
     const thumbnail = createThumbnail(picture);
     thumbnail.addEventListener('click', (evt) => {

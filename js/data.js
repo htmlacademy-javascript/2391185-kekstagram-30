@@ -54,7 +54,6 @@ const createComment = () => {
     name: getRandomArrayElement(NAMES),
   };
 };
-
 const createPhotoDescription = () => {
   const photoID = generatePhotoId();
   return {
